@@ -1,60 +1,61 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import styles from './LoginView.module.css';
 import * as authOperations from '../redux/auth/auth-operations';
 
-class LoginView extends Component {
-  state = {
-    email: '',
-    password: '',
+function LoginView({ onLogin }) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleChange = e => {
+    const { name, value } = e.target;
+    switch (name) {
+      case 'email':
+        setEmail(value);
+        break;
+      case 'password':
+        setPassword(value);
+        break;
+      default:
+        console.warn(`Тип поля name - ${name} не обрабатывается`);
+    }
   };
 
-  handleChange = ({ target: { name, value } }) => {
-    this.setState({ [name]: value });
-  };
-
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
 
-    this.props.onLogin(this.state);
+    onLogin({ email, password });
 
-    this.setState({ email: '', password: '' });
+    setEmail('');
+    setPassword('');
   };
 
-  render() {
-    const { email, password } = this.state;
-
-    return (
-      <div>
-        <h1>Login</h1>
-        <form
-          onSubmit={this.handleSubmit}
-          className={styles.form}
-          autoComplete="off"
-        >
-          <label className={styles.label}>
-            Почта
-            <input
-              type="email"
-              name="email"
-              value={email}
-              onChange={this.handleChange}
-            />
-          </label>
-          <label className={styles.label}>
-            Пароль
-            <input
-              type="password"
-              name="password"
-              value={password}
-              onChange={this.handleChange}
-            />
-          </label>
-          <button type="submit">Войти</button>
-        </form>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <h1>Login</h1>
+      <form onSubmit={handleSubmit} className={styles.form} autoComplete="off">
+        <label className={styles.label}>
+          Почта
+          <input
+            type="email"
+            name="email"
+            value={email}
+            onChange={handleChange}
+          />
+        </label>
+        <label className={styles.label}>
+          Пароль
+          <input
+            type="password"
+            name="password"
+            value={password}
+            onChange={handleChange}
+          />
+        </label>
+        <button type="submit">Войти</button>
+      </form>
+    </div>
+  );
 }
 
 const mapDispatchToProps = {
