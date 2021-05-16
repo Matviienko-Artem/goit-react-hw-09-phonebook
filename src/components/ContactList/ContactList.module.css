@@ -1,0 +1,17 @@
+.list {
+  padding: 0;
+  list-style: none;
+}
+.list_item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 30px;
+
+  margin-bottom: 10px;
+}
+.list_item_button {
+  margin-left: 20px;
+  background-color: tomato;
+  font-weight: 600;
+}
