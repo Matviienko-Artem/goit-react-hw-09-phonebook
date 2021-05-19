@@ -1,10 +1,14 @@
 import React from 'react';
 import style from './Filter.module.css';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import * as actions from '../../redux/contacts/contacts-action';
 import * as contactSelectors from '../../redux/contacts/contacts-selectors';
 
-const Filter = ({ value, onChange }) => {
+export default function Filter() {
+  const dispatch = useDispatch();
+  const value = useSelector(contactSelectors.getFilter);
+  const onChange = e => dispatch(actions.changeFilter(e.target.value));
+
   return (
     <div>
       <label>
@@ -20,14 +24,14 @@ const Filter = ({ value, onChange }) => {
       </label>
     </div>
   );
-};
+}
 
-const mapStateToProps = state => ({
-  value: contactSelectors.getFilter(state),
-});
+// const mapStateToProps = state => ({
+//   value: contactSelectors.getFilter(state),
+// });
 
-const mapDispatchToProps = dispatch => ({
-  onChange: e => dispatch(actions.changeFilter(e.target.value)),
-});
+// const mapDispatchToProps = dispatch => ({
+//   onChange: e => dispatch(actions.changeFilter(e.target.value)),
+// });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Filter);
+// export default connect(mapStateToProps, mapDispatchToProps)(Filter);

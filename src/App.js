@@ -3,7 +3,7 @@ import { Switch } from 'react-router-dom';
 import AppBar from './components/UserMenu/AppBar';
 import styles from './styles.module.css';
 import * as authOperations from './redux/auth/auth-operations';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import PrivateRoute from './components/UserMenu/PrivateRoute';
 import PublicRoute from './components/UserMenu/PublicRoute';
 
@@ -23,10 +23,12 @@ const ContactsViews = lazy(() =>
   import('./views/ContactsViews' /* webpackChunkName: "contacts-page" */),
 );
 
-function App({ onGetCurrentUser }) {
+export default function App() {
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    onGetCurrentUser();
-  }, [onGetCurrentUser]);
+    dispatch(authOperations.getCurrentUser());
+  }, [dispatch]);
 
   return (
     <div className={styles.Container}>
@@ -57,8 +59,8 @@ function App({ onGetCurrentUser }) {
   );
 }
 
-const mapDispatchToProps = {
-  onGetCurrentUser: authOperations.getCurrentUser,
-};
+// const mapDispatchToProps = {
+//   onGetCurrentUser: authOperations.getCurrentUser,
+// };
 
-export default connect(null, mapDispatchToProps)(App);
+// export default connect(null, mapDispatchToProps)(App);
