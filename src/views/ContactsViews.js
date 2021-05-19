@@ -10,7 +10,7 @@ import style from '../components/ContactForm/ContactForm.module.css';
 function ContactsViews({ fetchContacts, isLoadingContacts }) {
   useEffect(() => {
     fetchContacts();
-  }, []);
+  }, [fetchContacts]);
 
   return (
     <div className={style.container}>

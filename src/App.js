@@ -1,4 +1,4 @@
-import React, { Component, lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
 import { Switch } from 'react-router-dom';
 import AppBar from './components/UserMenu/AppBar';
 import styles from './styles.module.css';
@@ -23,40 +23,38 @@ const ContactsViews = lazy(() =>
   import('./views/ContactsViews' /* webpackChunkName: "contacts-page" */),
 );
 
-class App extends Component {
-  componentDidMount() {
-    this.props.onGetCurrentUser();
-  }
+function App({ onGetCurrentUser }) {
+  useEffect(() => {
+    onGetCurrentUser();
+  }, [onGetCurrentUser]);
 
-  render() {
-    return (
-      <div className={styles.Container}>
-        <AppBar />
-        <Suspense fallback={<p>Loading...</p>}>
-          <Switch>
-            <PublicRoute exact path="/" component={HomeView} />
-            <PublicRoute
-              path="/register"
-              restricted
-              component={RegisterView}
-              redirectTo="/contacts"
-            />
-            <PublicRoute
-              path="/login"
-              restricted
-              component={LoginView}
-              redirectTo="/contacts"
-            />
-            <PrivateRoute
-              path="/contacts"
-              component={ContactsViews}
-              redirectTo="/login"
-            />
-          </Switch>
-        </Suspense>
-      </div>
-    );
-  }
+  return (
+    <div className={styles.Container}>
+      <AppBar />
+      <Suspense fallback={<p>Loading...</p>}>
+        <Switch>
+          <PublicRoute exact path="/" component={HomeView} />
+          <PublicRoute
+            path="/register"
+            restricted
+            component={RegisterView}
+            redirectTo="/contacts"
+          />
+          <PublicRoute
+            path="/login"
+            restricted
+            component={LoginView}
+            redirectTo="/contacts"
+          />
+          <PrivateRoute
+            path="/contacts"
+            component={ContactsViews}
+            redirectTo="/login"
+          />
+        </Switch>
+      </Suspense>
+    </div>
+  );
 }
 
 const mapDispatchToProps = {

@@ -51,8 +51,15 @@ const loadingReducer = createReducer(false, {
   [deleteContactError]: () => false,
 });
 
+const errorReducer = createReducer(false, {
+  [fetchContactError]: (_, { payload }) => payload,
+  [addNewContactError]: (_, { payload }) => payload,
+  [deleteContactError]: (_, { payload }) => payload,
+});
+
 export default combineReducers({
   items: itemsReducer,
   filter: filterReducer,
   loading: loadingReducer,
+  error: errorReducer,
 });
